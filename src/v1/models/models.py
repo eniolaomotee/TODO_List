@@ -12,7 +12,6 @@ class User(SQLModel, table=True):
     uid: uuid.UUID = Field(sa_column=Column(pg.UUID, primary_key=True, unique=True,nullable=False, default=uuid.uuid4))
     email: str 
     hashed_password: str
-    # role : str = Field(sa_column=Column(pg.VARCHAR, server_default="user",nullable=False))
     is_active: bool = False
     created_at: datetime = Field(sa_column=Column(pg.TIMESTAMP,default=datetime.now))
     
@@ -28,7 +27,6 @@ class TodoItem(SQLModel, table=True):
     todo_uid: uuid.UUID = Field(sa_column=Column(pg.UUID, primary_key=True, unique=True,nullable=False, default=uuid.uuid4))
     title: str 
     description: Optional[str] 
-    is_completed: bool = Field(default=False)
     created_at: datetime = Field(sa_column=Column(pg.TIMESTAMP,default=datetime.now))
     updated_at: datetime = Field(sa_column=Column(pg.TIMESTAMP, default=datetime.now))
     

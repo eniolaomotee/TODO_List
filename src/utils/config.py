@@ -7,7 +7,9 @@ load_dotenv(dotenv_path=env_path)
 
 class Settings(BaseSettings):
     database_url: str
-    
+    secret_key: str
+    algorithm: str
+        
     model_config = SettingsConfigDict(env_file=env_path,extra="ignore")
     
     

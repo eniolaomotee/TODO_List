@@ -6,9 +6,9 @@ from src.v1.schemas.todo import TodoCreate, TodoUpdate
 
 
 class TodoService:
-    async def get_todo_by_id(self, todo_id: int, session: AsyncSession):
+    async def get_todo_by_uid(self, todo_uid: int, session: AsyncSession):
         "Get a todo item by its ID."
-        statement = select(TodoItem).where(TodoItem.todo_uid == todo_id)
+        statement = select(TodoItem).where(TodoItem.todo_uid == todo_uid)
         result = await session.exec(statement)
         todo = result.first()
         return todo
@@ -21,9 +21,9 @@ class TodoService:
         await session.refresh(new_todo)
         return new_todo
 
-    async def update_todo(self, todo_id: int, todo_data: TodoUpdate, session: AsyncSession):
+    async def update_todo(self, todo_uid: int, todo_data: TodoUpdate, session: AsyncSession):
         "Update an existing todo item."
-        todo = await self.get_todo_by_id(todo_id=todo_id, session=session)
+        todo = await self.get_todo_by_uid(todo_uid=todo_uid, session=session)
         
         if not todo:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Todo not found")
@@ -37,9 +37,9 @@ class TodoService:
         
         return todo
 
-    async def delete_todo(self, todo_id: int, session: AsyncSession):
+    async def delete_todo(self, todo_uid: int, session: AsyncSession):
         "Delete a todo item by its ID."
-        todo = await self.get_todo_by_id(todo_id=todo_id, session=session)
+        todo = await self.get_todo_by_uid(todo_uid=todo_uid, session=session)
         
         if not todo:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Todo not found")
@@ -70,5 +70,5 @@ class TodoService:
         "Count the total number of todo items."
         statement = select(TodoItem)
         result = await session.exec(statement)
-        count = result.rowcount
-        return count
+        count = result.all()
+        return len(count)
