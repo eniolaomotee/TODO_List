@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from src.db.db import init_db, close_db
 from src.v1.routes.auth import auth_router
+from src.v1.routes.todo import todo_router
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -26,3 +28,4 @@ app = FastAPI(
 )
 
 app.include_router(auth_router, prefix=f"/api/{version}/auth", tags=["Auth"])
+app.include_router(todo_router, prefix=f"/api/{version}/todo", tags=["Todo"])
