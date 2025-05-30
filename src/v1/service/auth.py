@@ -3,7 +3,7 @@ from fastapi import HTTPException, status
 from src.v1.models.models import User
 from sqlmodel.ext.asyncio.session import AsyncSession
 from src.v1.schemas.auth import UserCreate
-from src.utils.utils import hash_password
+from src.utils.utils import hash_password, decode_access_token
 
 
 

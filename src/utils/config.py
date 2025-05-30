@@ -9,7 +9,8 @@ class Settings(BaseSettings):
     database_url: str
     secret_key: str
     algorithm: str
-        
+    access_token_expiry: int = 30
+    refresh_token_expiry: int = 1440
     model_config = SettingsConfigDict(env_file=env_path,extra="ignore")
     
     

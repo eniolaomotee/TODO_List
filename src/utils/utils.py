@@ -31,7 +31,7 @@ def decode_access_token(token: str):
     try:
         token_data = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
         return token_data
-    except jwt.pyjwt.PyJWTError as e:
+    except jwt.PyJWTError as e:
         logging.error(f"Token decoding failed: {e}")
         return None
     except Exception as e:
