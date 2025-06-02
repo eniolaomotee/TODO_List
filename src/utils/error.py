@@ -10,8 +10,6 @@ class TODOErrors(Exception):
 class InvalidToken(TODOErrors):
     pass
 
-class TokenExpired(TODOErrors):
-    pass
 
 class TokenNotFound(TODOErrors):
     pass
@@ -72,6 +70,30 @@ def register_error_handlers(app:FastAPI):
                 "error_code":"Please get a new token",
                 "resolution":"Please get a new token"
             }
-            
-            )
+        )
     )
+    
+    app.add_exception_handler(
+        InvalidCredentials,
+        create_exception_handler(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            initial_detail={
+                "message":"Invalid credentials provided",
+                "error_code":"InvalidCredentials",
+                "resolution":"Please check your credentials and try again"
+            }
+        )
+    )
+    
+    app.add_exception_handler(
+        TODONotFound,
+        create_exception_handler(
+            status_code=status.HTTP_404_NOT_FOUND,
+            initial_detail={
+                "message":"Todo item not found",
+                "error_code":"TODONotFound",
+                "resolution":"Please check the todo ID and try again"
+            }
+        )
+    )
+    
