@@ -97,3 +97,16 @@ def register_error_handlers(app:FastAPI):
         )
     )
     
+    
+    app.add_exception_handler(
+        AccessTokenRequired,
+        create_exception_handler(
+            status_code=status.HTTP_404_NOT_FOUND,
+            initial_detail={
+                "message":"Todo item not found",
+                "error_code":"TODONotFound",
+                "resolution":"Please check the todo ID and try again"
+            }
+        )
+    )
+    
