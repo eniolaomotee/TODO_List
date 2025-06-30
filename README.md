@@ -56,7 +56,7 @@ pip install -r requirements.txt
 DATABASE_URL=sqlite:///./test.db  # or your Supabase URL
 SECRET_KEY=your-secret
 ALGORITHM=your-algorithm-key
-
+```
 
 5. Running Tests
 ``` bash
@@ -64,4 +64,4 @@ pytest
 ```
 
 
-This project is licensed under the MIT License.
+### This project is licensed under the MIT License.
