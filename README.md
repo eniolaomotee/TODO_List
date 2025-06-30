@@ -35,25 +35,33 @@ This is a **Todo List API** built with **FastAPI**, designed to help users manag
 ```bash
 git clone https://github.com/your-username/todo-list-api.git
 cd todo-list-api
+```
 
 2. Create and activate a Virtual environment
+
 ```bash
 python -m venv venv
 source venv/bin/activate  # On macOS/Linux
 venv\Scripts\activate     # On Windows
+```
 
 3. Install Dependencies
+
 ```bash
 pip install -r requirements.txt
+```
 
 4. Set up environment variables
 ```bash
 DATABASE_URL=sqlite:///./test.db  # or your Supabase URL
 SECRET_KEY=your-secret
-ALGORITHM
+ALGORITHM=your-algorithm-key
+
 
 5. Running Tests
 ``` bash
 pytest
+```
+
 
 This project is licensed under the MIT License.
