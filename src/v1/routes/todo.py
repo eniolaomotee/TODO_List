@@ -5,7 +5,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from src.core.dependencies import AccessTokenBearer
 from src.db.db import get_session
-from src.v1.schemas.todo import TodoCreate, TodoOutput, TodoUpdate
+from src.v1.schemas.todo import TodoCreate, TodoOutput, TodoUpdate, PaginatedTodoResponse
 from src.v1.service.todo import TodoService
 import logging
 
@@ -15,6 +15,8 @@ todo_router = APIRouter()
 
 todo_service = TodoService()
 access_bearer_token = AccessTokenBearer()
+
+
 
 
 @todo_router.post("/", response_model=TodoOutput, status_code=status.HTTP_201_CREATED)
@@ -29,6 +31,27 @@ async def create_todo(
     user_uid = token_details.get("user")["uid"]
     logger.debug("THis is user_uid %s", user_uid)
     todo = await todo_service.create_todo(todo_data=todo_data, user_uid=user_uid, session=session)
+    return todo
+
+@todo_router.get("/", response_model=PaginatedTodoResponse)
+async def get_todo(
+    session: AsyncSession = Depends(get_session),
+    token_details=Depends(access_bearer_token),
+    page: int = Query(1, ge=1),
+    limit: int = Query(10,ge=1,le=100)
+):
+    """
+    Get a logged in user todo.
+    """
+    user_uid = token_details.get("user")["uid"]
+    logger.debug("User Uid is %s", user_uid)
+    todo = await todo_service.get_todo(user_uid=user_uid, session=session, page=page, limit=limit)
+
+    if not todo:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Todo not found"
+        )
+
     return todo
 
 
@@ -53,7 +76,7 @@ async def count_todos(session: AsyncSession = Depends(get_session), token_detail
 
 
 @todo_router.get("/{todo_uid}", response_model=TodoOutput)
-async def get_todo(
+async def get_todo_by_id(
     todo_uid: str,
     session: AsyncSession = Depends(get_session),
     token_details=Depends(access_bearer_token),
@@ -107,17 +130,6 @@ async def delete_todo(
     return {"detail": "Todo deleted successfully"}
 
 
-@todo_router.get("/", response_model=List[TodoOutput])
-async def list_todos(
-    session: AsyncSession = Depends(get_session),
-    token_details=Depends(access_bearer_token),
-):
-    """
-    List all todo items.
-    """
-    todos = await todo_service.get_all_todos(session=session)
-
-    return todos
 
 
 

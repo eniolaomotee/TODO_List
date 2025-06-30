@@ -20,6 +20,10 @@ class User(SQLModel, table=True):
     hashed_password: str
     is_active: bool = False
     created_at: datetime = Field(sa_column=Column(pg.TIMESTAMP, default=datetime.now))
+    
+    todo: List["TodoItem"] = Relationship(back_populates="user", sa_relationship_kwargs={"lazy":"selectin"})
+    
+    
 
     def repr__(self):
         return f"User(uid={self.uid}, email={self.email}, is_active={self.is_active})"
@@ -40,6 +44,9 @@ class TodoItem(SQLModel, table=True):
     updated_at: datetime = Field(sa_column=Column(pg.TIMESTAMP, default=datetime.now))
 
     user_uid: Optional[uuid.UUID] = Field(default=None, foreign_key="users.uid")
+    
+    user : Optional[User] = Relationship(back_populates="todo")
+
 
     def repr__(self):
         return f"TodoItem(todo_uid={self.todo_uid}, title={self.title}, is_completed={self.is_completed})"

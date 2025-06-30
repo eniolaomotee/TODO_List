@@ -1,10 +1,12 @@
-from fastapi import HTTPException, status, Query
+from fastapi import HTTPException, status
 from sqlmodel import desc, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlalchemy import func
-from src.v1.models.models import TodoItem, User
+from src.v1.models.models import TodoItem
 from src.v1.schemas.todo import TodoCreate, TodoUpdate
+import logging
 
+logger = logging.getLogger(__name__)
 
 class TodoService:
     async def get_todo_by_uid(self, todo_uid: int, session: AsyncSession):
@@ -13,10 +15,29 @@ class TodoService:
         result = await session.exec(statement)
         todo = result.first()
         return todo
-
+    
+    async def get_todo(self, user_uid: str, session: AsyncSession, page: int =1, limit :int=10):
+        "Get a user todo."
+        offset = (page - 1 ) * limit
+        statement = select(TodoItem).where(TodoItem.user_uid == user_uid).offset(offset).limit(limit)
+        result = await session.exec(statement)
+        todo = result.all()
+        
+        
+        count_statm = select(func.count()).select_from(TodoItem).where(TodoItem.user_uid == user_uid)
+        total_result = await session.exec(count_statm)
+        total = total_result.one()
+        
+        return {
+            "data": todo,
+            "page":page,
+            "limit":limit,
+            "total":total
+        }
+        
     async def create_todo(self, todo_data: TodoCreate, user_uid:str, session: AsyncSession):
         "Create a new todo item."
-        new_todo = TodoItem(**todo_data.model_dump())
+        new_todo = TodoItem(**todo_data.model_dump(), user_uid=user_uid)
         session.add(new_todo)
         await session.commit()
         await session.refresh(new_todo)
