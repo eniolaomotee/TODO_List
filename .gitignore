@@ -5,5 +5,6 @@ env
 .vscode
 .pytest_cache
 __pycache__
+.vscode
 
 # Python bytecode files
