@@ -1,12 +1,15 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from src.core.dependencies import AccessTokenBearer
 from src.db.db import get_session
 from src.v1.schemas.todo import TodoCreate, TodoOutput, TodoUpdate
 from src.v1.service.todo import TodoService
+import logging
+
+logger = logging.getLogger(__name__)
 
 todo_router = APIRouter()
 
@@ -23,13 +26,15 @@ async def create_todo(
     """
     Create a new todo item.
     """
-    todo = await todo_service.create_todo(todo_data=todo_data, session=session)
+    user_uid = token_details.get("user")["uid"]
+    logger.debug("THis is user_uid %s", user_uid)
+    todo = await todo_service.create_todo(todo_data=todo_data, user_uid=user_uid, session=session)
     return todo
 
 
-@todo_router.get("/todos/search", response_model=list[TodoCreate])
+@todo_router.get("/search", response_model=list[TodoCreate])
 async def search_todos(
-    search_term: str,
+    search_term: str = Query(min_length=1, max_length=100, description="Search keyword in title or description"),
     session: AsyncSession = Depends(get_session),
     token_details=Depends(access_bearer_token),
 ):
@@ -39,6 +44,12 @@ async def search_todos(
     todos = await todo_service.search_todos(search_term=search_term, session=session)
 
     return todos
+
+@todo_router.get("/count")
+async def count_todos(session: AsyncSession = Depends(get_session), token_details=Depends(access_bearer_token)):
+    to_dos = await todo_service.count_todos(session=session)
+    
+    return to_dos
 
 
 @todo_router.get("/{todo_uid}", response_model=TodoOutput)
@@ -109,10 +120,15 @@ async def list_todos(
     return todos
 
 
-@todo_router.get("/todos/count", response_model=int)
-async def count_todos(
-    session: AsyncSession = Depends(get_session),
-    token_details=Depends(access_bearer_token),
-):
-    todos = await todo_service.count_todos(session=session)
-    return todos
+
+
+# @todo_router.get("/count")
+# async def count_todos(
+#     session: AsyncSession = Depends(get_session),
+#     token_details=Depends(access_bearer_token),
+# ):
+#     todos = await todo_service.count_todos(session=session)
+#     return todos
+
+
+# 2c0f4216-09bc-49ae-b527-e7e8e484c8ed

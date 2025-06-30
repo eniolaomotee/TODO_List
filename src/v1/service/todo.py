@@ -1,8 +1,8 @@
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, Query
 from sqlmodel import desc, select
 from sqlmodel.ext.asyncio.session import AsyncSession
-
-from src.v1.models.models import TodoItem
+from sqlalchemy import func
+from src.v1.models.models import TodoItem, User
 from src.v1.schemas.todo import TodoCreate, TodoUpdate
 
 
@@ -14,7 +14,7 @@ class TodoService:
         todo = result.first()
         return todo
 
-    async def create_todo(self, todo_data: TodoCreate, session: AsyncSession):
+    async def create_todo(self, todo_data: TodoCreate, user_uid:str, session: AsyncSession):
         "Create a new todo item."
         new_todo = TodoItem(**todo_data.model_dump())
         session.add(new_todo)
@@ -61,7 +61,7 @@ class TodoService:
         todos = result.all()
         return todos
 
-    async def search_todos(self, search_term: str, session: AsyncSession):
+    async def search_todos(self, search_term: str, session=AsyncSession,):
         "Search for todo items by title or description."
         statement = (
             select(TodoItem)
@@ -79,7 +79,7 @@ class TodoService:
 
     async def count_todos(self, session: AsyncSession):
         "Count the total number of todo items."
-        statement = select(TodoItem)
+        statement = select(func.count()).select_from(TodoItem)
         result = await session.exec(statement)
         count = result.all()
         return len(count)

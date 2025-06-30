@@ -8,7 +8,6 @@ from src.core.dependencies import AccessTokenBearer, get_current_user
 from src.db.db import get_session
 from src.utils.config import settings
 from src.utils.utils import create_access_token, verify_password
-from src.v1.models.models import User
 from src.v1.schemas.auth import UserCreate, UserOut
 from src.v1.service.auth import AuthService
 
