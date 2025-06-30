@@ -1,17 +1,20 @@
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlmodel import SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession
-from contextlib import asynccontextmanager
+
 from src.utils.config import settings
 
 engine = create_async_engine(
     url=settings.database_url,
     echo=False,
     future=True,
-    connect_args={"statement_cache_size":0}
+    connect_args={"statement_cache_size": 0},
 )
 
-AsyncSessionFactory = async_sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False,autoflush=False)
+AsyncSessionFactory = async_sessionmaker(
+    bind=engine, class_=AsyncSession, expire_on_commit=False, autoflush=False
+)
 
 
 async def get_session() -> AsyncSession:
@@ -26,12 +29,13 @@ async def get_session() -> AsyncSession:
         finally:
             await session.close()
 
+
 async def init_db():
     "Initialize the database by creating all tables."
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
-        
+
+
 async def close_db():
     "Close the database connection."
     await engine.dispose()
-        

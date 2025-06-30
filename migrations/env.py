@@ -1,14 +1,12 @@
-import asyncio
 from logging.config import fileConfig
 
-from sqlalchemy import pool
+from alembic import context
+from sqlalchemy import create_engine, pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
-
-from alembic import context
-from sqlalchemy import create_engine
-from src.utils.config import settings
 from sqlmodel import SQLModel
+
+from src.utils.config import settings
 
 database_url = settings.database_url
 
@@ -18,7 +16,6 @@ config = context.config
 
 database_url = settings.database_url.replace("postgresql+asyncpg", "postgresql")
 config.set_main_option("sqlalchemy.url", database_url)
-
 
 
 # Interpret the config file for Python logging.
@@ -93,16 +90,15 @@ def run_migrations_online() -> None:
         database_url,
         poolclass=pool.NullPool,
     )
-    
+
     with engine.connect() as connection:
         context.configure(
-            connection=connection, 
+            connection=connection,
             target_metadata=target_metadata,
         )
-        
+
         with context.begin_transaction():
             context.run_migrations()
-
 
 
 if context.is_offline_mode():

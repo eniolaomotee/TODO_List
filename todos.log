@@ -1,0 +1,14 @@
+{"asctime": "2025-06-30 09:00:01", "msecs": 806.0, "levelname": "INFO", "name": "src", "lineno": 24, "message": "Logging works!!!"}
+{"asctime": "2025-06-30 09:00:06", "msecs": 22.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 62, "message": "Application startup complete."}
+{"asctime": "2025-06-30 09:00:06", "msecs": 26.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 215, "message": "Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)", "color_message": "Uvicorn running on \u001b[1m%s://%s:%d\u001b[0m (Press CTRL+C to quit)"}
+{"asctime": "2025-06-30 09:00:34", "msecs": 34.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 263, "message": "Shutting down"}
+{"asctime": "2025-06-30 09:00:34", "msecs": 143.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 67, "message": "Waiting for application shutdown."}
+{"asctime": "2025-06-30 09:00:34", "msecs": 297.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 76, "message": "Application shutdown complete."}
+{"asctime": "2025-06-30 09:00:34", "msecs": 299.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 93, "message": "Finished server process [9980]", "color_message": "Finished server process [\u001b[36m%d\u001b[0m]"}
+{"asctime": "2025-06-30 09:04:11", "msecs": 429.0, "levelname": "INFO", "name": "src", "lineno": 24, "message": "Logging works!!!"}
+{"asctime": "2025-06-30 09:04:15", "msecs": 826.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 62, "message": "Application startup complete."}
+{"asctime": "2025-06-30 09:04:15", "msecs": 828.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 215, "message": "Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)", "color_message": "Uvicorn running on \u001b[1m%s://%s:%d\u001b[0m (Press CTRL+C to quit)"}
+{"asctime": "2025-06-30 09:05:08", "msecs": 2.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 263, "message": "Shutting down"}
+{"asctime": "2025-06-30 09:05:08", "msecs": 110.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 67, "message": "Waiting for application shutdown."}
+{"asctime": "2025-06-30 09:05:08", "msecs": 265.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 76, "message": "Application shutdown complete."}
+{"asctime": "2025-06-30 09:05:08", "msecs": 267.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 93, "message": "Finished server process [10217]", "color_message": "Finished server process [\u001b[36m%d\u001b[0m]"}

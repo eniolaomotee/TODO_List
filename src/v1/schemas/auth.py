@@ -1,15 +1,16 @@
-from pydantic import BaseModel, EmailStr
 import uuid
 from datetime import datetime
+
+from pydantic import BaseModel, EmailStr
 
 
 class UserCreate(BaseModel):
     email: EmailStr
-    password:str
+    password: str
 
 
 class UserOut(BaseModel):
     uid: uuid.UUID
-    is_active: bool 
+    is_active: bool
     email: EmailStr
     created_at: datetime

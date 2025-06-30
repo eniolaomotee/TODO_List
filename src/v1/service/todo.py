@@ -1,7 +1,8 @@
-from src.v1.models.models import TodoItem
-from sqlmodel import select, desc
 from fastapi import HTTPException, status
+from sqlmodel import desc, select
 from sqlmodel.ext.asyncio.session import AsyncSession
+
+from src.v1.models.models import TodoItem
 from src.v1.schemas.todo import TodoCreate, TodoUpdate
 
 
@@ -21,51 +22,61 @@ class TodoService:
         await session.refresh(new_todo)
         return new_todo
 
-    async def update_todo(self, todo_uid: int, todo_data: TodoUpdate, session: AsyncSession):
+    async def update_todo(
+        self, todo_uid: int, todo_data: TodoUpdate, session: AsyncSession
+    ):
         "Update an existing todo item."
         todo = await self.get_todo_by_uid(todo_uid=todo_uid, session=session)
-        
+
         if not todo:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Todo not found")
-        
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Todo not found"
+            )
+
         for key, value in todo_data.model_dump().items():
             setattr(todo, key, value)
-        
+
         session.add(todo)
         await session.commit()
         await session.refresh(todo)
-        
+
         return todo
 
     async def delete_todo(self, todo_uid: int, session: AsyncSession):
         "Delete a todo item by its ID."
         todo = await self.get_todo_by_uid(todo_uid=todo_uid, session=session)
-        
+
         if not todo:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Todo not found")
-        
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Todo not found"
+            )
+
         await session.delete(todo)
         await session.commit()
-        
-    async def get_all_todos(self,session: AsyncSession):
-        "Get all todo items."        
+
+    async def get_all_todos(self, session: AsyncSession):
+        "Get all todo items."
         statement = select(TodoItem).order_by(TodoItem.created_at.desc())
         result = await session.exec(statement)
         todos = result.all()
         return todos
-    
+
     async def search_todos(self, search_term: str, session: AsyncSession):
         "Search for todo items by title or description."
-        statement = select(TodoItem).where(
-            (TodoItem.title.ilike(f"%{search_term}%")) |
-            (TodoItem.description.ilike(f"%{search_term}%"))
-        ).order_by(TodoItem.created_at.desc())
-        
+        statement = (
+            select(TodoItem)
+            .where(
+                (TodoItem.title.ilike(f"%{search_term}%"))
+                | (TodoItem.description.ilike(f"%{search_term}%"))
+            )
+            .order_by(TodoItem.created_at.desc())
+        )
+
         result = await session.exec(statement)
         todos = result.all()
-        
+
         return todos
-    
+
     async def count_todos(self, session: AsyncSession):
         "Count the total number of todo items."
         statement = select(TodoItem)
