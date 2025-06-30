@@ -1,5 +1,9 @@
 venv/
 env
 .env/
+*.log
+.vscode
+.pytest_cache
+__pycache__
 
 # Python bytecode files

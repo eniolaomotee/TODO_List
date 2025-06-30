@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     algorithm: str
     access_token_expiry: int = 30
     refresh_token_expiry: int = 1440
+    database_url_test: str
     model_config = SettingsConfigDict(env_file=env_path, extra="ignore")
 
 

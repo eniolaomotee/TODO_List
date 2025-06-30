@@ -97,16 +97,3 @@ async def get_user_by_email(email: str, session: AsyncSession = Depends(get_sess
         )
 
     return user
-
-
-# @auth_router.put("/user/update", response_model=UserOut)
-# async def update_user(user_update: UserCreate, session: AsyncSession = Depends(get_session)):
-#     """
-#     Update user details.
-#     """
-#     user = await auth_service.update_user(user_dict=user_update, session=session)
-
-#     if not user:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-
-#     return user

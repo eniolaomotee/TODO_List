@@ -5,6 +5,7 @@ from sqlalchemy import func
 from src.v1.models.models import TodoItem
 from src.v1.schemas.todo import TodoCreate, TodoUpdate
 import logging
+from uuid import UUID
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +38,7 @@ class TodoService:
         
     async def create_todo(self, todo_data: TodoCreate, user_uid:str, session: AsyncSession):
         "Create a new todo item."
-        new_todo = TodoItem(**todo_data.model_dump(), user_uid=user_uid)
+        new_todo = TodoItem(**todo_data.model_dump(), user_uid=UUID(user_uid))
         session.add(new_todo)
         await session.commit()
         await session.refresh(new_todo)

@@ -40,3 +40,6 @@ app = FastAPI(
 
 app.include_router(auth_router, prefix=f"/api/{version}/auth", tags=["Auth"])
 app.include_router(todo_router, prefix=f"/api/{version}/todo", tags=["Todo"])
+
+
+# uvicorn src:app --reload         

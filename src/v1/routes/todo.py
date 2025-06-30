@@ -8,6 +8,7 @@ from src.db.db import get_session
 from src.v1.schemas.todo import TodoCreate, TodoOutput, TodoUpdate, PaginatedTodoResponse
 from src.v1.service.todo import TodoService
 import logging
+from uuid import UUID
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +44,7 @@ async def get_todo(
     """
     Get a logged in user todo.
     """
-    user_uid = token_details.get("user")["uid"]
+    user_uid = UUID(token_details.get("user")["uid"])
     logger.debug("User Uid is %s", user_uid)
     todo = await todo_service.get_todo(user_uid=user_uid, session=session, page=page, limit=limit)
 
@@ -77,7 +78,7 @@ async def count_todos(session: AsyncSession = Depends(get_session), token_detail
 
 @todo_router.get("/{todo_uid}", response_model=TodoOutput)
 async def get_todo_by_id(
-    todo_uid: str,
+    todo_uid: UUID,
     session: AsyncSession = Depends(get_session),
     token_details=Depends(access_bearer_token),
 ):
@@ -129,18 +130,3 @@ async def delete_todo(
 
     return {"detail": "Todo deleted successfully"}
 
-
-
-
-
-
-# @todo_router.get("/count")
-# async def count_todos(
-#     session: AsyncSession = Depends(get_session),
-#     token_details=Depends(access_bearer_token),
-# ):
-#     todos = await todo_service.count_todos(session=session)
-#     return todos
-
-
-# 2c0f4216-09bc-49ae-b527-e7e8e484c8ed

@@ -618,3 +618,14 @@
 {"asctime": "2025-06-30 11:16:13", "msecs": 818.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 67, "message": "Waiting for application shutdown."}
 {"asctime": "2025-06-30 11:16:14", "msecs": 2.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 76, "message": "Application shutdown complete."}
 {"asctime": "2025-06-30 11:16:14", "msecs": 4.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 93, "message": "Finished server process [18040]", "color_message": "Finished server process [\u001b[36m%d\u001b[0m]"}
+{"asctime": "2025-06-30 15:15:29", "msecs": 852.0, "levelname": "INFO", "name": "src", "lineno": 24, "message": "Logging works!!!"}
+{"asctime": "2025-06-30 15:15:34", "msecs": 307.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 62, "message": "Application startup complete."}
+{"asctime": "2025-06-30 15:15:43", "msecs": 807.0, "levelname": "INFO", "name": "uvicorn.access", "lineno": 476, "message": "127.0.0.1:50020 - \"GET /docs HTTP/1.1\" 200"}
+{"asctime": "2025-06-30 15:15:45", "msecs": 344.0, "levelname": "INFO", "name": "uvicorn.access", "lineno": 476, "message": "127.0.0.1:50020 - \"GET /openapi.json HTTP/1.1\" 200"}
+{"asctime": "2025-06-30 15:16:00", "msecs": 142.0, "levelname": "INFO", "name": "uvicorn.access", "lineno": 476, "message": "127.0.0.1:50041 - \"GET /api/v1/todo/search?search_term=jjj HTTP/1.1\" 403"}
+{"asctime": "2025-06-30 15:16:21", "msecs": 483.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 263, "message": "Shutting down"}
+{"asctime": "2025-06-30 15:16:21", "msecs": 595.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 67, "message": "Waiting for application shutdown."}
+{"asctime": "2025-06-30 15:16:21", "msecs": 882.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 76, "message": "Application shutdown complete."}
+{"asctime": "2025-06-30 15:16:21", "msecs": 886.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 93, "message": "Finished server process [33841]", "color_message": "Finished server process [\u001b[36m%d\u001b[0m]"}
+{"asctime": "2025-06-30 15:16:22", "msecs": 630.0, "levelname": "INFO", "name": "src", "lineno": 24, "message": "Logging works!!!"}
+{"asctime": "2025-06-30 15:16:32", "msecs": 93.0, "levelname": "INFO", "name": "uvicorn.error", "lineno": 62, "message": "Application startup complete."}
